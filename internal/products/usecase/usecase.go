@@ -17,6 +17,6 @@ func NewProductUsecase(r products.ProductRepository) products.ProductUsecase {
 }
 
 func (uc *usecase) CreateProduct(ctx context.Context, request dtos.Product) error {
-
+	// TODO: 変換処理を追加
 	return uc.repo.StoreProduct(ctx, entities.Product{})
 }
