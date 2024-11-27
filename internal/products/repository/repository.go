@@ -20,11 +20,20 @@ func (r *repository) StoreProduct(ctx context.Context, product entities.Product)
 	if err := product.Validate(); err != nil {
 		return err
 	}
-	
+
 	result := r.db.WithContext(ctx).Create(&product)
 	if result.Error != nil {
 		return result.Error
 	}
-	
+
 	return nil
+}
+
+func (r *repository) GetProductByName(ctx context.Context, name string) (*entities.Product, error) {
+	var product entities.Product
+	err := r.db.WithContext(ctx).Where("name = ?", name).First(&product).Error
+	if err != nil {
+		return nil, err
+	}
+	return &product, nil
 }

@@ -7,5 +7,5 @@ import (
 )
 
 type ProductUsecase interface {
-	CreateProduct(context.Context, dtos.Product) error
+	CreateProduct(context.Context, dtos.CreateProductRequest) error
 }
