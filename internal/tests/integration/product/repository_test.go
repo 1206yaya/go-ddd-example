@@ -1,29 +1,30 @@
-package repository
+package integration
 
 import (
 	"context"
 	"testing"
 
 	"github.com/1206yaya/go-ddd-example/internal/products/entities"
-	"github.com/1206yaya/go-ddd-example/pkg/database"
+	"github.com/1206yaya/go-ddd-example/internal/products/repository"
+	"github.com/1206yaya/go-ddd-example/internal/tests/integration/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestProductRepository_StoreProduct(t *testing.T) {
 	// テストDBのセットアップ
-	db, err := database.InitTestDB()
+	db, err := testutil.InitTestDB()
 	require.NoError(t, err, "Failed to initialize test database")
 
 	// テスト終了時のクリーンアップ
 	t.Cleanup(func() {
-		err := database.CleanupTestDB(db)
+		err := testutil.CleanupTestDB(db)
 		if err != nil {
 			t.Errorf("Failed to cleanup test database: %v", err)
 		}
 	})
 
-	repo := NewProductRepository(db)
+	repo := repository.NewProductRepository(db)
 
 	tests := []struct {
 		name        string
@@ -63,7 +64,7 @@ func TestProductRepository_StoreProduct(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// 各テストケース前にデータをクリア
-			err := database.TruncateTable(db, &entities.Product{})
+			err := testutil.TruncateTable(db, &entities.Product{})
 			require.NoError(t, err, "Failed to truncate test database")
 
 			// テストの実行

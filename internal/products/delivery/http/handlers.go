@@ -17,7 +17,7 @@ func NewProductHandler(uc products.ProductUsecase) products.ProductHandlers {
 }
 
 func (h *handlers) CreateProduct(c echo.Context) error {
-	err := h.uc.CreateProduct(c.Request().Context(), dtos.Product{})
+	err := h.uc.CreateProduct(c.Request().Context(), dtos.CreateProductRequest{})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, nil)
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/1206yaya/go-ddd-example/internal/products/delivery/http"
+	"github.com/1206yaya/go-ddd-example/internal/products/mapper"
 	"github.com/1206yaya/go-ddd-example/internal/products/repository"
 	"github.com/1206yaya/go-ddd-example/internal/products/usecase"
 	"github.com/1206yaya/go-ddd-example/pkg/database"
@@ -26,7 +27,7 @@ func main() {
 	echo := echo.New()
 
 	productRepo := repository.NewProductRepository(db)
-	productUC := usecase.NewProductUsecase(productRepo)
+	productUC := usecase.NewProductUsecase(productRepo, mapper.NewProductMapper())
 	productHandlers := http.NewProductHandler(productUC)
 
 	echo.POST("/product", productHandlers.CreateProduct)

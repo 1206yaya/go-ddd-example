@@ -8,4 +8,5 @@ import (
 
 type ProductRepository interface {
 	StoreProduct(ctx context.Context, request entities.Product) error
+	GetProductByName(ctx context.Context, name string) (*entities.Product, error)
 }
